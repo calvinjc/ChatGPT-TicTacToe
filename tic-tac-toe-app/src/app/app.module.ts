@@ -12,15 +12,17 @@ import { MatInputModule } from '@angular/material/input';
 import { MatButtonModule } from '@angular/material/button';
 import { MatTableModule } from '@angular/material/table';
 import { MatSortModule } from '@angular/material/sort';
+import { MatCardModule } from '@angular/material/card';
 
 import { AppRoutingModule } from './app-routing.module';
 import { AppComponent } from './app.component';
 import { UsernameComponent } from './username/username.component';
 import { GameComponent } from './game/game.component';
 import { RecordsComponent } from './records/records.component';
+import { CellComponent } from './cell/cell.component';
 
 @NgModule({
-  declarations: [AppComponent, UsernameComponent, GameComponent, RecordsComponent],
+  declarations: [AppComponent, UsernameComponent, GameComponent, CellComponent, RecordsComponent],
   imports: [
     BrowserModule,
     BrowserAnimationsModule,
@@ -33,6 +35,7 @@ import { RecordsComponent } from './records/records.component';
     MatButtonModule,
     MatTableModule,
     MatSortModule,
+    MatCardModule,
     AppRoutingModule,
   ],
   providers: [],

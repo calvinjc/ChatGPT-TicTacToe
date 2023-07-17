@@ -13,6 +13,12 @@ Ok, yeah now we're starting to run into more issues.  The code as generated does
 - Property 'username' has no initializer and is not definitely assigned in the constructor
 - Type 'string | null' is not assignable to type 'string' when setting `this.username = localStorage.getItem('username');`
 
+Now it compiles but it's still not functional:
+- In username component "If ngModel is used within a form tag, either the name attribute must be set or the form control must be defined as 'standalone' in ngModelOptions."
+- It forgot the name of one of the components and had me generate a new "game" component with no component code provided and a template that includes `<!-- Existing game code -->`.  It should have renamed and/or reused the existing BoardComponent.  It removed CellComponent and BoardComponent from AppModule with no instructions.  Even with moving BoardComponent into the GameComponent, CellComponent is still required.
+
+The records page is hillarious. It doesn't even try to track the current users record let alone track previous users.  It just created an array of fake usernames and win/loss/tie records and displays them in a table.  It does at least acknowledge this in the text output.  It instructs me to "replace the `userRecords` array with a function to fetch and update the user records from a data source"
+
 # Response:
 To implement the requested features, including the username functionality, user records, and navigation with multiple pages, you will need to make several changes to the application structure and code. Here's a step-by-step guide to help you achieve that:
 

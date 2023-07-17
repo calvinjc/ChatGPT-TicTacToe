@@ -7,7 +7,7 @@ import { Router } from '@angular/router';
   styleUrls: ['./username.component.css'],
 })
 export class UsernameComponent {
-  username: string;
+  username: string = "";
 
   constructor(private router: Router) {}
 
