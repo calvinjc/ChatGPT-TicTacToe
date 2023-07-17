@@ -1,146 +1,161 @@
 # User:
-Write unit tests for this application
+Update the application to use angular material and look better than it does currently
 
 # Notes
-It didn't do a great job at writing the tests, conceptually it came up with tests that made sense.  However two of the tests failed.  One failure was due to checking the text content of the element, where the game state was correct but the element didn't contain the expected test.  The other failure was that the test asserted that it should detect a draw however the test setup created a game state where X wins on the last move.
 
 # Response:
-Sure! Here's an example of unit tests for the Tic Tac Toe application using the Jasmine testing framework. You can add these tests to the corresponding component test files (`board.component.spec.ts` and `cell.component.spec.ts`):
+To update the Tic Tac Toe application to use Angular Material and improve the visual appearance, you'll need to make a few modifications to the code and add Angular Material dependencies. Here's a step-by-step guide to help you achieve that:
 
-**board.component.spec.ts**:
-```typescript
-import { ComponentFixture, TestBed } from '@angular/core/testing';
-import { BoardComponent } from './board.component';
-import { CellComponent } from '../cell/cell.component';
+1. **Install Angular Material**: Open a terminal or command prompt, navigate to the project directory, and run the following command to install Angular Material and its required dependencies:
 
-describe('BoardComponent', () => {
-  let component: BoardComponent;
-  let fixture: ComponentFixture<BoardComponent>;
-
-  beforeEach(async () => {
-    await TestBed.configureTestingModule({
-      declarations: [BoardComponent, CellComponent],
-    }).compileComponents();
-  });
-
-  beforeEach(() => {
-    fixture = TestBed.createComponent(BoardComponent);
-    component = fixture.componentInstance;
-    fixture.detectChanges();
-  });
-
-  it('should create the board component', () => {
-    expect(component).toBeTruthy();
-  });
-
-  it('should have an empty board at the start', () => {
-    expect(component.cells).toEqual(['', '', '', '', '', '', '', '', '']);
-  });
-
-  it('should switch players after each move', () => {
-    const cell1 = fixture.nativeElement.querySelector('.cell:nth-child(1)');
-    const cell2 = fixture.nativeElement.querySelector('.cell:nth-child(2)');
-
-    cell1.click();
-    fixture.detectChanges();
-    expect(cell1.textContent).toBe('X');
-    expect(cell2.textContent).toBe('');
-
-    cell2.click();
-    fixture.detectChanges();
-    expect(cell1.textContent).toBe('X');
-    expect(cell2.textContent).toBe('O');
-  });
-
-  it('should declare a winner when a player wins', () => {
-    const cells = fixture.nativeElement.querySelectorAll('.cell');
-    cells[0].click(); // X
-    cells[3].click(); // O
-    cells[1].click(); // X
-    cells[4].click(); // O
-    cells[2].click(); // X
-    fixture.detectChanges();
-
-    const gameOverText = fixture.nativeElement.querySelector('p');
-    expect(gameOverText.textContent).toContain('X wins!');
-  });
-
-  it('should declare a draw when there are no more moves', () => {
-    const cells = fixture.nativeElement.querySelectorAll('.cell');
-    cells[0].click(); // X
-    cells[1].click(); // O
-    cells[2].click(); // X
-    cells[3].click(); // O
-    cells[4].click(); // X
-    cells[5].click(); // O
-    cells[7].click(); // X
-    cells[6].click(); // O
-    cells[8].click(); // X
-    fixture.detectChanges();
-
-    const gameOverText = fixture.nativeElement.querySelector('p');
-    expect(gameOverText.textContent).toContain("It's a draw!");
-  });
-
-  it('should reset the game when reset button is clicked', () => {
-    const cells = fixture.nativeElement.querySelectorAll('.cell');
-    cells[0].click();
-    cells[1].click();
-    cells[2].click();
-    fixture.detectChanges();
-
-    const resetButton = fixture.nativeElement.querySelector('button');
-    resetButton.click();
-    fixture.detectChanges();
-
-    expect(component.cells).toEqual(['', '', '', '', '', '', '', '', '']);
-  });
-});
+```
+ng add @angular/material
 ```
 
-**cell.component.spec.ts**:
+2. **Import Angular Material Modules**: Open the `app.module.ts` file and import the necessary Angular Material modules. Update the file as follows:
+
 ```typescript
-import { ComponentFixture, TestBed } from '@angular/core/testing';
-import { CellComponent } from './cell.component';
+import { NgModule } from '@angular/core';
+import { BrowserModule } from '@angular/platform-browser';
+import { BrowserAnimationsModule } from '@angular/platform-browser/animations';
 
-describe('CellComponent', () => {
-  let component: CellComponent;
-  let fixture: ComponentFixture<CellComponent>;
+// Angular Material modules
+import { MatButtonModule } from '@angular/material/button';
+import { MatIconModule } from '@angular/material/icon';
 
-  beforeEach(async () => {
-    await TestBed.configureTestingModule({
-      declarations: [CellComponent],
-    }).compileComponents();
-  });
+import { AppComponent } from './app.component';
+import { BoardComponent } from './board/board.component';
+import { CellComponent } from './cell/cell.component';
 
-  beforeEach(() => {
-    fixture = TestBed.createComponent(CellComponent);
-    component = fixture.componentInstance;
-    fixture.detectChanges();
-  });
-
-  it('should create the cell component', () => {
-    expect(component).toBeTruthy();
-  });
-
-  it('should display the cell value', () => {
-    component.value = 'X';
-    fixture.detectChanges();
-
-    const cellElement = fixture.nativeElement.querySelector('.cell');
-    expect(cellElement.textContent).toBe('X');
-  });
-
-  it('should emit the cellClicked event on click', () => {
-    spyOn(component.cellClicked, 'emit');
-    const cellElement = fixture.nativeElement.querySelector('.cell');
-
-    cellElement.click();
-    fixture.detectChanges();
-
-    expect(component.cellClicked.emit).toHaveBeenCalled();
-  });
-});
+@NgModule({
+  declarations: [AppComponent, BoardComponent, CellComponent],
+  imports: [
+    BrowserModule,
+    BrowserAnimationsModule,
+    MatButtonModule,
+    MatIconModule,
+  ],
+  providers: [],
+  bootstrap: [AppComponent],
+})
+export class AppModule {}
 ```
 
-These tests cover various scenarios such as component creation, initial board state, player switching, winning condition, draw condition, and game reset. You can run these tests using the Angular CLI command `ng test`. Make sure to include the corresponding component test files in your Angular project configuration file (`angular.json`).
+3. **Update HTML Templates**: Update the HTML templates to use Angular Material components and styling. Modify the `board.component.html` and `cell.component.html` files as follows:
+
+**board.component.html**:
+```html
+<h1>Tic Tac Toe</h1>
+<div id="board">
+  <app-cell
+    *ngFor="let cell of cells; let i = index"
+    [value]="cell"
+    (cellClicked)="handleCellClick(i)"
+    matRipple
+  ></app-cell>
+</div>
+<button mat-raised-button color="primary" (click)="resetGame()">Reset</button>
+<p class="game-over" *ngIf="gameOver">{{ gameOver }}</p>
+```
+
+**cell.component.html**:
+```html
+<div class="cell" (click)="handleClick()" [ngClass]="value" matRipple>{{ value }}</div>
+```
+
+4. **Update CSS Styling**: Add custom CSS styles to enhance the visual appearance. Update the `board.component.css` and `cell.component.css` files as follows:
+
+**board.component.css**:
+```css
+h1 {
+  text-align: center;
+  margin-bottom: 20px;
+}
+
+#board {
+  display: grid;
+  grid-template-columns: repeat(3, 1fr);
+  gap: 10px;
+  margin-top: 20px;
+}
+
+button {
+  display: block;
+  margin: 20px auto;
+}
+
+.game-over {
+  text-align: center;
+  font-weight: bold;
+}
+```
+
+**cell.component.css**:
+```css
+.cell {
+  border: 1px solid black;
+  height: 100px;
+  width: 100px;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  font-size: 40px;
+  cursor: pointer;
+}
+
+.cell.X {
+  color: #f44336;
+}
+
+.cell.O {
+  color: #2196f3;
+}
+```
+
+5. **Add Angular Material Icons**: Open the `index.html` file and add the following `<link>` tag inside the `<head>` section to include the Angular Material icon font:
+
+```html
+<link rel="stylesheet" href="https://fonts.googleapis.com/icon?family=Material+Icons">
+```
+
+6. **Update Component Classes**: In the `board.component.ts` and `cell.component.ts` files, add the necessary imports for Angular Material components and remove unused imports. Modify the files as follows:
+
+**board.component.ts**:
+```typescript
+import { Component } from '@angular/core';
+
+@Component({
+  selector: 'app-board',
+  templateUrl: './board.component.html',
+  styleUrls: ['./board.component.css'],
+})
+export class BoardComponent {
+  // Existing component code...
+}
+```
+
+**cell.component.ts**:
+```typescript
+import { Component, EventEmitter, Input, Output } from '@angular/core';
+
+@Component({
+  selector: 'app-cell',
+  templateUrl: './cell.component.html',
+  styleUrls: ['./cell.component.css'],
+})
+export class CellComponent {
+  // Existing component code...
+}
+```
+
+7. **Update the App Component**: In the `app.component.html` file, replace the existing content with the `<app-board></app-board>` element wrapped in a `<main>` tag to provide a container. Modify the file as follows:
+
+```html
+<main>
+  <app-board></app-board>
+</main>
+```
+
+8. **Run the Application**: Start the Angular development server by running the command `ng serve` in the terminal. Open your web browser and navigate to `http://localhost:4200`. The updated Tic Tac Toe application with Angular Material styling should now be displayed.
+
+By following these steps, you've incorporated Angular Material into the Tic Tac Toe application and enhanced its visual appearance. The buttons and cells will have Material Design styling, improving the overall look and feel of the game. Feel free to further customize the styling or explore additional Angular Material components as per your preference.

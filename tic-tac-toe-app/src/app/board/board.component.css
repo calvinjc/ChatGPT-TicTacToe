@@ -1,3 +1,8 @@
+h1 {
+  text-align: center;
+  margin-bottom: 20px;
+}
+
 #board {
   display: grid;
   grid-template-columns: repeat(3, 1fr);
@@ -6,6 +11,11 @@
 }
 
 button {
-  margin-top: 20px;
-  font-size: 20px;
+  display: block;
+  margin: 20px auto;
+}
+
+.game-over {
+  text-align: center;
+  font-weight: bold;
 }

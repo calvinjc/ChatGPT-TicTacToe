@@ -4,7 +4,8 @@
     *ngFor="let cell of cells; let i = index"
     [value]="cell"
     (cellClicked)="handleCellClick(i)"
+    matRipple
   ></app-cell>
 </div>
-<button (click)="resetGame()">Reset</button>
-<p *ngIf="gameOver">{{ gameOver }}</p>
+<button mat-raised-button color="primary" (click)="resetGame()">Reset</button>
+<p class="game-over" *ngIf="gameOver">{{ gameOver }}</p>

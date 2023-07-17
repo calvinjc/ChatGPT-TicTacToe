@@ -6,4 +6,13 @@
   align-items: center;
   justify-content: center;
   font-size: 40px;
+  cursor: pointer;
+}
+
+.cell.X {
+  color: #f44336;
+}
+
+.cell.O {
+  color: #2196f3;
 }
