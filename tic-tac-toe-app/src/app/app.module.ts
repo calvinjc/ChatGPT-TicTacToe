@@ -20,6 +20,7 @@ import { UsernameComponent } from './username/username.component';
 import { GameComponent } from './game/game.component';
 import { RecordsComponent } from './records/records.component';
 import { CellComponent } from './cell/cell.component';
+import { UserRecordService } from './user-record.service';
 
 @NgModule({
   declarations: [AppComponent, UsernameComponent, GameComponent, CellComponent, RecordsComponent],
@@ -38,7 +39,7 @@ import { CellComponent } from './cell/cell.component';
     MatCardModule,
     AppRoutingModule,
   ],
-  providers: [],
+  providers: [UserRecordService],
   bootstrap: [AppComponent],
 })
 export class AppModule {}

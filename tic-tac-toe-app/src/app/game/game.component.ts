@@ -1,4 +1,5 @@
 import { Component, OnInit } from '@angular/core';
+import { UserRecordService } from '../user-record.service';
 
 @Component({
   selector: 'app-game',
@@ -6,14 +7,20 @@ import { Component, OnInit } from '@angular/core';
   styleUrls: ['./game.component.css'],
 })
 export class GameComponent implements OnInit {
-  username: string | null = "";
+  username: string = "Player1";
 
   cells: string[] = Array(9).fill('');
   currentPlayer: string = 'X';
   gameOver: string | null = null;
 
+  constructor(private userRecordService: UserRecordService) {}
+
   ngOnInit(): void {
-    this.username = localStorage.getItem('username');
+    this.username = localStorage.getItem('username') || "Player1";
+  }
+
+  handleGameResult(result: 'win' | 'loss' | 'tie'): void {
+    this.userRecordService.updateUserRecord(this.username, result);
   }
 
   handleCellClick(index: number): void {
@@ -22,8 +29,14 @@ export class GameComponent implements OnInit {
     this.cells[index] = this.currentPlayer;
     if (this.checkWin(this.currentPlayer)) {
       this.gameOver = `${this.currentPlayer} wins!`;
+      if (this.currentPlayer === 'X') {
+        this.handleGameResult('win');
+      } else {
+        this.handleGameResult('loss');
+      }
     } else if (this.checkDraw()) {
       this.gameOver = "It's a draw!";
+      this.handleGameResult('tie');
     } else {
       this.currentPlayer = this.currentPlayer === 'X' ? 'O' : 'X';
       if (this.currentPlayer === 'O') {
@@ -72,8 +85,14 @@ export class GameComponent implements OnInit {
 
     if (this.checkWin(this.currentPlayer)) {
       this.gameOver = `${this.currentPlayer} wins!`;
+      if (this.currentPlayer === 'X') {
+        this.handleGameResult('win');
+      } else {
+        this.handleGameResult('loss');
+      }
     } else if (this.checkDraw()) {
       this.gameOver = "It's a draw!";
+      this.handleGameResult('tie');
     } else {
       this.currentPlayer = this.currentPlayer === 'X' ? 'O' : 'X';
     }

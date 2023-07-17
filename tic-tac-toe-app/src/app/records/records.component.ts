@@ -1,4 +1,5 @@
 import { Component, OnInit } from '@angular/core';
+import { UserRecordService } from '../user-record.service';
 import { MatTableDataSource } from '@angular/material/table';
 import { MatSort } from '@angular/material/sort';
 
@@ -15,18 +16,18 @@ interface UserRecord {
   styleUrls: ['./records.component.css'],
 })
 export class RecordsComponent implements OnInit {
-  userRecords: UserRecord[] = [
-    { username: 'User1', wins: 3, losses: 1, ties: 2 },
-    { username: 'User2', wins: 5, losses: 2, ties: 0 },
-    { username: 'User3', wins: 2, losses: 3, ties: 1 },
-  ];
+  userRecords: UserRecord[] = [];
 
   displayedColumns: string[] = ['username', 'wins', 'losses', 'ties'];
 
-  constructor() {}
+  constructor(private userRecordService: UserRecordService) {}
 
   ngOnInit(): void {
-    // Sort user records by number of wins
+    this.userRecords = this.userRecordService.getAllUserRecords();
+    this.sortUserRecords();
+  }
+
+  sortUserRecords(): void {
     this.userRecords.sort((a, b) => b.wins - a.wins);
   }
 }
