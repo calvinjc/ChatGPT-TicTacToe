@@ -1,0 +1,10 @@
+<h1>Tic Tac Toe</h1>
+<div id="board">
+  <app-cell
+    *ngFor="let cell of cells; let i = index"
+    [value]="cell"
+    (cellClicked)="handleCellClick(i)"
+  ></app-cell>
+</div>
+<button (click)="resetGame()">Reset</button>
+<p *ngIf="gameOver">{{ gameOver }}</p>
