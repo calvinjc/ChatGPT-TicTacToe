@@ -1,26 +1,46 @@
 import { Component } from '@angular/core';
-import { UserRecordService } from '../user-record.service';
-import { MatTableDataSource } from '@angular/material/table';
-import { MatSort } from '@angular/material/sort';
-
-interface UserRecord {
-  username: string;
-  wins: number;
-  losses: number;
-  ties: number;
-}
+import { UserService, UserRecord } from '../user.service';
 
 @Component({
   selector: 'app-records',
-  templateUrl: './records.component.html',
-  styleUrls: ['./records.component.scss']
+  template: `
+    <h1>User Records</h1>
+    <table>
+      <thead>
+        <tr>
+          <th>Username</th>
+          <th>Wins</th>
+          <th>Losses</th>
+          <th>Ties</th>
+        </tr>
+      </thead>
+      <tbody>
+        <tr *ngFor="let record of userRecords">
+          <td>{{ record.username }}</td>
+          <td>{{ record.wins }}</td>
+          <td>{{ record.losses }}</td>
+          <td>{{ record.ties }}</td>
+        </tr>
+      </tbody>
+    </table>
+  `,
+  styles: [`
+    table {
+      width: 100%;
+      border-collapse: collapse;
+    }
+
+    th, td {
+      padding: 0.5em;
+      text-align: left;
+      border-bottom: 1px solid black;
+    }
+  `]
 })
 export class RecordsComponent {
-  userRecords: MatTableDataSource<UserRecord>;
-  displayedColumns: string[] = ['username', 'wins', 'losses', 'ties'];
+  userRecords: UserRecord[];
 
-  constructor(private userRecordService: UserRecordService) {
-    this.userRecords = new MatTableDataSource<UserRecord>(this.userRecordService.getUserRecords());
-    this.userRecords.sort = new MatSort();
+  constructor(private userService: UserService) {
+    this.userRecords = userService.getUserRecords();
   }
 }
