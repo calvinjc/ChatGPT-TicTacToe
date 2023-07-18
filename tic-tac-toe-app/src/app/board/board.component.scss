@@ -3,7 +3,7 @@ h1 {
   margin-bottom: 20px;
 }
 
-#board {
+.board {
   display: grid;
   grid-template-columns: repeat(3, 1fr);
   gap: 10px;

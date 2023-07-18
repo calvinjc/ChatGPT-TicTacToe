@@ -1,14 +1,4 @@
 <mat-card>
   <h2>Tic Tac Toe Game</h2>
-  <h3>Welcome, {{ username }}!</h3>
-  <div id="board">
-    <app-cell
-      *ngFor="let cell of cells; let i = index"
-      [value]="cell"
-      (cellClicked)="handleCellClick(i)"
-      matRipple
-    ></app-cell>
-  </div>
-  <button mat-raised-button color="primary" (click)="resetGame()">Reset</button>
-  <p class="game-over" *ngIf="gameOver">{{ gameOver }}</p>
+  <app-board></app-board>
 </mat-card>

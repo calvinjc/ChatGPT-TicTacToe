@@ -8,38 +8,19 @@ interface UserRecord {
 }
 
 @Injectable({
-  providedIn: 'root',
+  providedIn: 'root'
 })
 export class UserRecordService {
   private userRecords: UserRecord[] = [];
 
-  constructor() {}
+  constructor() { }
 
-  getAllUserRecords(): UserRecord[] {
-    return this.userRecords;
-  }
-
-  getUserRecordByUsername(username: string): UserRecord {
-    const record = this.userRecords.find(
-      (userRecord) => userRecord.username === username
-    );
-
-    if (!record) {
-      return {
-        username: username,
-        wins: 0,
-        losses: 0,
-        ties: 0,
-      };
-    }
-
-    return record;
+  getUserRecords(): UserRecord[] {
+    return this.userRecords.sort((a, b) => b.wins - a.wins);
   }
 
   updateUserRecord(username: string, result: 'win' | 'loss' | 'tie'): void {
-    const recordIndex = this.userRecords.findIndex(
-      (userRecord) => userRecord.username === username
-    );
+    const recordIndex = this.userRecords.findIndex(record => record.username === username);
 
     if (recordIndex !== -1) {
       if (result === 'win') {
@@ -54,7 +35,7 @@ export class UserRecordService {
         username: username,
         wins: result === 'win' ? 1 : 0,
         losses: result === 'loss' ? 1 : 0,
-        ties: result === 'tie' ? 1 : 0,
+        ties: result === 'tie' ? 1 : 0
       };
       this.userRecords.push(newRecord);
     }

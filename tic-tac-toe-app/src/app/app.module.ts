@@ -1,9 +1,7 @@
 import { NgModule } from '@angular/core';
 import { BrowserModule } from '@angular/platform-browser';
-import { BrowserAnimationsModule } from '@angular/platform-browser/animations';
 import { FormsModule } from '@angular/forms';
 
-// Angular Material modules
 import { MatToolbarModule } from '@angular/material/toolbar';
 import { MatSidenavModule } from '@angular/material/sidenav';
 import { MatListModule } from '@angular/material/list';
@@ -16,18 +14,29 @@ import { MatCardModule } from '@angular/material/card';
 
 import { AppRoutingModule } from './app-routing.module';
 import { AppComponent } from './app.component';
+import { BrowserAnimationsModule } from '@angular/platform-browser/animations';
 import { UsernameComponent } from './username/username.component';
 import { GameComponent } from './game/game.component';
 import { RecordsComponent } from './records/records.component';
+import { BoardComponent } from './board/board.component';
 import { CellComponent } from './cell/cell.component';
 import { UserRecordService } from './user-record.service';
 
 @NgModule({
-  declarations: [AppComponent, UsernameComponent, GameComponent, CellComponent, RecordsComponent],
+  declarations: [
+    AppComponent,
+    UsernameComponent,
+    GameComponent,
+    RecordsComponent,
+    BoardComponent,
+    CellComponent,
+  ],
   imports: [
     BrowserModule,
+    AppRoutingModule,
     BrowserAnimationsModule,
     FormsModule,
+    MatCardModule,
     MatToolbarModule,
     MatSidenavModule,
     MatListModule,
@@ -36,10 +45,8 @@ import { UserRecordService } from './user-record.service';
     MatButtonModule,
     MatTableModule,
     MatSortModule,
-    MatCardModule,
-    AppRoutingModule,
   ],
   providers: [UserRecordService],
-  bootstrap: [AppComponent],
+  bootstrap: [AppComponent]
 })
-export class AppModule {}
+export class AppModule { }

@@ -1,0 +1,10 @@
+<div class="board">
+  <div *ngFor="let row of board; let i = index" class="row">
+    <app-cell
+      *ngFor="let cell of row; let j = index"
+      [value]="cell"
+      (cellClicked)="handleCellClick(i, j)"
+      matRipple
+    ></app-cell>
+  </div>
+</div>

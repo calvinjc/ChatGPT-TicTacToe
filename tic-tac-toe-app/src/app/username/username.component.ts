@@ -4,12 +4,12 @@ import { Router } from '@angular/router';
 @Component({
   selector: 'app-username',
   templateUrl: './username.component.html',
-  styleUrls: ['./username.component.css'],
+  styleUrls: ['./username.component.scss']
 })
 export class UsernameComponent {
-  username: string = "";
+  username?: string;
 
-  constructor(private router: Router) {}
+  constructor(private router: Router) { }
 
   saveUsername(): void {
     if (this.username && this.username.trim() !== '') {
